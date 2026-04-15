@@ -1,0 +1,37 @@
+# ── Python cache ────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+.Python
+
+# ── Virtual environments ─────────────────────────────────────
+venv/
+env/
+.env
+.venv/
+
+# ── Local dev databases (use Postgres/Railway in production) ─
+*.db
+*.sqlite
+*.sqlite3
+
+# ── IDE / Editor files ───────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Testing / Dev files ──────────────────────────────────────
+test_*.py
+*.test.py
+analytics.db
+app/analytics.db
+app/ayusutra.db
+
+# ── Unused legacy files ──────────────────────────────────────
+12_features.html
+run.py

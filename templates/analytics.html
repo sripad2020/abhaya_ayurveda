@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AyuSutra — Visitor Analytics</title>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Yatra+One&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* ── ANALYTICS DASHBOARD ─────────────────────────────────── */
+    body { cursor: auto; }
+    .analytics-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 9rem 5% 6rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Header */
+    .analytics-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .analytics-title-block h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      color: var(--brown-dark);
+      margin-bottom: 0.3rem;
+    }
+    .analytics-title-block p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+    .period-tabs {
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(212,160,23,0.08);
+      border: 1px solid rgba(212,160,23,0.2);
+      border-radius: 50px;
+      padding: 4px;
+    }
+    .period-tab {
+      padding: 0.45rem 1.2rem;
+      border-radius: 50px;
+      border: none;
+      background: transparent;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .period-tab.active {
+      background: linear-gradient(135deg, var(--gold), var(--saffron));
+      color: var(--white);
+      box-shadow: 0 3px 12px rgba(212,160,23,0.35);
+    }
+    .last-refresh {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .kpi-card {
+      background: var(--white);
+      border: 1px solid rgba(212,160,23,0.15);
+      border-radius: 20px;
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(42,26,8,0.05);
+    }
+    .kpi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(212,160,23,0.15); border-color: var(--gold); }
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,160,23,0.1), transparent 70%);
+    }
+    .kpi-card.accent-green::before { background: radial-gradient(circle, rgba(45,94,46,0.12), transparent 70%); }
+    .kpi-card.accent-saffron::before { background: radial-gradient(circle, rgba(232,118,10,0.1), transparent 70%); }
+    .kpi-card.accent-blue::before { background: radial-gradient(circle, rgba(30,100,180,0.08), transparent 70%); }
+
+    .kpi-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .kpi-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .kpi-value {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--brown-dark);
+      line-height: 1;
+      transition: all 0.5s;
+    }
+    .kpi-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+    }
+    .kpi-sub .up   { color: #2D5E2E; font-weight: 700; }
+    .kpi-sub .down { color: var(--red-indian); font-weight: 700; }
+
+    /* Main grid 2-col */
+    .analytics-main {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Chart cards */
+    .chart-card {
+      background: var(--white);
+      border: 1px solid rgba(212,160,23,0.15);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(42,26,8,0.05);
+    }
+    .chart-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .chart-card-header h3 {
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      color: var(--brown-dark);
+      letter-spacing: 0.06em;
+    }
+    .chart-card-header span {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: rgba(212,160,23,0.08);
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      border: 1px solid rgba(212,160,23,0.15);
+    }
+
+    /* Bottom row */
+    .analytics-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    /* Page table */
+    .page-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .page-table th {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: left;
+      padding: 0 0 0.75rem;
+      border-bottom: 1px solid rgba(212,160,23,0.15);
+    }
+    .page-table td {
+      padding: 0.7rem 0;
+      font-size: 0.88rem;
+      color: var(--text-body);
+      border-bottom: 1px solid rgba(212,160,23,0.07);
+      vertical-align: middle;
+    }
+    .page-bar-bg {
+      height: 6px;
+      background: rgba(212,160,23,0.1);
+      border-radius: 50px;
+      margin-top: 4px;
+      overflow: hidden;
+    }
+    .page-bar-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--gold), var(--saffron));
+      border-radius: 50px;
+      transition: width 1s ease;
+    }
+
+    /* Country list */
+    .country-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .country-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .country-flag { font-size: 1.3rem; flex-shrink: 0; }
+    .country-name { font-size: 0.88rem; color: var(--text-body); flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .country-count { font-size: 0.82rem; font-weight: 700; color: var(--gold-deep); flex-shrink: 0; }
+    .country-pct-bar { flex: 1; height: 5px; background: rgba(212,160,23,0.1); border-radius: 50px; overflow: hidden; }
+    .country-pct-fill { height: 100%; background: linear-gradient(to right, var(--gold), var(--saffron)); border-radius: 50px; }
+
+    /* Referrer list */
+    .referrer-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(212,160,23,0.07);
+    }
+    .referrer-item:last-child { border-bottom: none; }
+    .referrer-icon {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: rgba(212,160,23,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0;
+    }
+    .referrer-url { font-size: 0.82rem; color: var(--text-muted); flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .referrer-count { font-size: 0.82rem; font-weight: 700; color: var(--brown-dark); }
+
+    /* Live dot */
+    .live-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #2D5E2E;
+      margin-right: 6px;
+      animation: livePulse 2s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* Loading state */
+    .skeleton {
+      background: linear-gradient(90deg, rgba(212,160,23,0.05) 25%, rgba(212,160,23,0.12) 50%, rgba(212,160,23,0.05) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* Error state */
+    .error-banner {
+      background: rgba(139,26,26,0.06);
+      border: 1px solid rgba(139,26,26,0.2);
+      color: var(--red-indian);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .analytics-main { grid-template-columns: 1fr; }
+      .analytics-bottom { grid-template-columns: 1fr 1fr; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 700px) {
+      .analytics-wrap { padding: 8rem 4% 4rem; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+      .kpi-value { font-size: 1.8rem; }
+      .analytics-bottom { grid-template-columns: 1fr; }
+      .period-tabs { flex-wrap: wrap; }
+      .analytics-header { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 420px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="watermark-bg" aria-hidden="true"></div>
+
+  <!-- MOBILE NAV DRAWER -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <nav class="mobile-nav-drawer" id="mobileDrawer">
+    <button class="mobile-nav-close" id="mobileClose">✕</button>
+    <a href="/" class="mobile-nav-brand"><span class="brand-om">ॐ</span><span class="brand-name">AyuSutra</span></a>
+    <ul class="mobile-nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/body-wisdom">Body Wisdom</a></li>
+      <li><a href="/assess">Assessments</a></li>
+      <li><a href="/consult">Consult</a></li>
+      <li><a href="/admin/analytics" class="active">Analytics</a></li>
+    </ul>
+    <a href="/consult" class="mobile-nav-cta">Book Consultation ✦</a>
+  </nav>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="/" class="nav-brand">
+      <span class="brand-om">ॐ</span>
+      <span class="brand-name">AyuSutra</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/body-wisdom">Body Wisdom</a></li>
+      <li><a href="/assess">Assessments</a></li>
+      <li><a href="/consult">Consult</a></li>
+      <li><a href="/admin/analytics" style="color:var(--saffron)">Analytics</a></li>
+    </ul>
+    <a href="/consult" class="nav-cta">Book Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="analytics-wrap">
+
+    <!-- HEADER -->
+    <div class="analytics-header">
+      <div class="analytics-title-block">
+        <p class="section-tag">Admin Portal</p>
+        <h1>Visitor Analytics <span class="live-dot"></span></h1>
+        <p id="lastRefresh" class="last-refresh">Loading…</p>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.75rem">
+        <div class="period-tabs" id="periodTabs">
+          <button class="period-tab" data-days="7">7 days</button>
+          <button class="period-tab active" data-days="30">30 days</button>
+          <button class="period-tab" data-days="90">90 days</button>
+          <button class="period-tab" data-days="365">1 year</button>
+        </div>
+        <button onclick="loadData(currentDays)" class="btn btn-ghost" style="font-size:0.85rem;padding:0.5rem 1.25rem">
+          ↻ Refresh
+        </button>
+      </div>
+    </div>
+
+    <!-- ERROR BANNER -->
+    <div class="error-banner" id="errorBanner">
+      ⚠️ Could not load analytics data. Make sure the FastAPI server is running.
+    </div>
+
+    <!-- KPI GRID -->
+    <div class="kpi-grid" id="kpiGrid">
+      <div class="kpi-card">
+        <span class="kpi-icon">📊</span>
+        <div class="kpi-label">Total Page Visits</div>
+        <div class="kpi-value skeleton" id="kpiTotal" style="height:2.4rem;width:80px">​</div>
+        <div class="kpi-sub" id="kpiTotalSub">–</div>
+      </div>
+      <div class="kpi-card accent-green">
+        <span class="kpi-icon">👤</span>
+        <div class="kpi-label">Unique Visitors</div>
+        <div class="kpi-value skeleton" id="kpiUnique" style="height:2.4rem;width:80px">​</div>
+        <div class="kpi-sub" id="kpiUniqueSub">–</div>
+      </div>
+      <div class="kpi-card accent-saffron">
+        <span class="kpi-icon">📅</span>
+        <div class="kpi-label">Today's Visits</div>
+        <div class="kpi-value skeleton" id="kpiToday" style="height:2.4rem;width:80px">​</div>
+        <div class="kpi-sub" id="kpiTodaySub">–</div>
+      </div>
+      <div class="kpi-card accent-blue">
+        <span class="kpi-icon">🌏</span>
+        <div class="kpi-label">Countries Reached</div>
+        <div class="kpi-value skeleton" id="kpiCountries" style="height:2.4rem;width:80px">​</div>
+        <div class="kpi-sub">Distinct visitor countries</div>
+      </div>
+    </div>
+
+    <!-- TREND CHART + DONUT -->
+    <div class="analytics-main">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <h3>📈 Daily Visits Trend</h3>
+          <span id="trendLabel">Last 14 days</span>
+        </div>
+        <canvas id="trendChart" height="90"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <h3>🗺️ By Country</h3>
+          <span id="countryTotal">–</span>
+        </div>
+        <canvas id="countryChart" height="200"></canvas>
+        <div class="country-list" id="countryList" style="margin-top:1rem"></div>
+      </div>
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="analytics-bottom">
+
+      <!-- Page Breakdown -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <h3>📄 Page-Wise Visits</h3>
+          <span id="pageTotal">–</span>
+        </div>
+        <table class="page-table" id="pageTable">
+          <thead>
+            <tr>
+              <th>Page</th>
+              <th style="text-align:right">Visits</th>
+              <th style="text-align:right">Unique</th>
+            </tr>
+          </thead>
+          <tbody id="pageTableBody">
+            <tr><td colspan="3"><div class="skeleton" style="height:1.5rem;width:100%;border-radius:8px"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Geography Full Table -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <h3>🌍 Country / IP Analytics</h3>
+          <span>Geo data</span>
+        </div>
+        <div class="country-list" id="fullCountryList"></div>
+      </div>
+
+      <!-- Top Referrers -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <h3>🔗 Top Referrers</h3>
+          <span>Traffic sources</span>
+        </div>
+        <div id="referrerList">
+          <div class="skeleton" style="height:2rem;border-radius:8px;margin-bottom:0.5rem"></div>
+          <div class="skeleton" style="height:2rem;border-radius:8px;margin-bottom:0.5rem"></div>
+          <div class="skeleton" style="height:2rem;border-radius:8px"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.analytics-wrap -->
+
+  <script src="/static/js/script.js"></script>
+  <script>
+  /* ── ANALYTICS DASHBOARD LOGIC ─────────────────────────────── */
+  const GOLD     = '#D4A017';
+  const SAFFRON  = '#E8760A';
+  const BROWN    = '#2A1A08';
+  const MUTED    = '#7A5C3A';
+  const GREEN    = '#2D5E2E';
+  const CREAM    = '#FFF8EC';
+
+  let trendChartInst = null;
+  let countryChartInst = null;
+  let currentDays = 30;
+
+  /* Country → Flag emoji helper */
+  const flagMap = {
+    'India':'🇮🇳','United States':'🇺🇸','United Kingdom':'🇬🇧',
+    'Canada':'🇨🇦','Australia':'🇦🇺','Germany':'🇩🇪','France':'🇫🇷',
+    'Singapore':'🇸🇬','UAE':'🇦🇪','Japan':'🇯🇵','China':'🇨🇳',
+    'Brazil':'🇧🇷','Italy':'🇮🇹','Netherlands':'🇳🇱','Sweden':'🇸🇪',
+    'Spain':'🇪🇸','South Korea':'🇰🇷','Russia':'🇷🇺','Mexico':'🇲🇽',
+    'Pakistan':'🇵🇰','Bangladesh':'🇧🇩','Sri Lanka':'🇱🇰','Nepal':'🇳🇵',
+    'Local / Dev':'🖥️','Unknown':'🌐',
+  };
+  function flag(country) { return flagMap[country] || '🌐'; }
+
+  function fmt(n) {
+    if (n >= 1000000) return (n/1000000).toFixed(1)+'M';
+    if (n >= 1000)    return (n/1000).toFixed(1)+'K';
+    return String(n);
+  }
+
+  function removeSkeleton(el) {
+    el.classList.remove('skeleton');
+    el.style.height = '';
+    el.style.width  = '';
+  }
+
+  async function loadData(days = 30) {
+    currentDays = days;
+
+    /* Update tab UI */
+    document.querySelectorAll('.period-tab').forEach(t => {
+      t.classList.toggle('active', parseInt(t.dataset.days) === days);
+    });
+
+    document.getElementById('errorBanner').style.display = 'none';
+    document.getElementById('lastRefresh').textContent = 'Loading…';
+
+    try {
+      const res = await fetch(`/api/analytics?days=${days}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const d = await res.json();
+      render(d, days);
+    } catch(e) {
+      document.getElementById('errorBanner').style.display = 'block';
+      document.getElementById('lastRefresh').textContent = 'Failed to load.';
+      console.error(e);
+    }
+  }
+
+  function render(d, days) {
+    /* KPIs */
+    const kpiTotal = document.getElementById('kpiTotal');
+    removeSkeleton(kpiTotal);
+    kpiTotal.textContent = fmt(d.total_visits);
+
+    const kpiUnique = document.getElementById('kpiUnique');
+    removeSkeleton(kpiUnique);
+    kpiUnique.textContent = fmt(d.unique_users);
+
+    const kpiToday = document.getElementById('kpiToday');
+    removeSkeleton(kpiToday);
+    kpiToday.textContent = fmt(d.today_visits);
+
+    const kpiCountries = document.getElementById('kpiCountries');
+    removeSkeleton(kpiCountries);
+    kpiCountries.textContent = fmt(d.countries.length);
+
+    document.getElementById('kpiTotalSub').innerHTML =
+      `<span>In the last ${days} days</span>`;
+    document.getElementById('kpiUniqueSub').innerHTML =
+      `${d.unique_users} distinct browsers/sessions`;
+    document.getElementById('kpiTodaySub').innerHTML =
+      `<span class="up">${d.today_unique}</span> unique today`;
+
+    document.getElementById('lastRefresh').textContent =
+      `Last refreshed: ${new Date().toLocaleTimeString()}`;
+
+    /* Trend Chart */
+    const trendEl = document.getElementById('trendChart');
+    const labels   = d.daily.map(r => {
+      const dt = new Date(r.date);
+      return dt.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+    });
+    const visits  = d.daily.map(r => r.visits);
+    const uniq    = d.daily.map(r => r.unique_users);
+
+    if (trendChartInst) trendChartInst.destroy();
+    trendChartInst = new Chart(trendEl, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Total Visits',
+            data: visits,
+            borderColor: GOLD,
+            backgroundColor: 'rgba(212,160,23,0.08)',
+            borderWidth: 2.5,
+            pointRadius: 4,
+            pointBackgroundColor: GOLD,
+            fill: true,
+            tension: 0.4,
+          },
+          {
+            label: 'Unique Visitors',
+            data: uniq,
+            borderColor: GREEN,
+            backgroundColor: 'rgba(45,94,46,0.07)',
+            borderWidth: 2,
+            pointRadius: 3,
+            pointBackgroundColor: GREEN,
+            fill: true,
+            tension: 0.4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: {
+            labels: { font: { family: "'Crimson Pro',serif", size: 13 }, color: MUTED },
+          },
+          tooltip: {
+            backgroundColor: BROWN,
+            titleColor: GOLD,
+            bodyColor: CREAM,
+            borderColor: 'rgba(212,160,23,0.3)',
+            borderWidth: 1,
+          },
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(212,160,23,0.06)' },
+            ticks: { color: MUTED, font: { size: 11 }, maxRotation: 45 },
+          },
+          y: {
+            grid: { color: 'rgba(212,160,23,0.06)' },
+            ticks: { color: MUTED, font: { size: 11 } },
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+    document.getElementById('trendLabel').textContent = `Last ${d.daily.length} days`;
+
+    /* Country donut */
+    const top5    = d.countries.slice(0, 5);
+    const others  = d.countries.slice(5).reduce((s, r) => s + r.visits, 0);
+    const cLabels = top5.map(r => r.country);
+    const cData   = top5.map(r => r.visits);
+    if (others > 0) { cLabels.push('Others'); cData.push(others); }
+
+    const cColors = ['#D4A017','#E8760A','#2D5E2E','#8B1A1A','#1E64B4','#A07820'];
+    const countryEl = document.getElementById('countryChart');
+    if (countryChartInst) countryChartInst.destroy();
+    countryChartInst = new Chart(countryEl, {
+      type: 'doughnut',
+      data: {
+        labels: cLabels,
+        datasets: [{
+          data: cData,
+          backgroundColor: cColors,
+          borderColor: CREAM,
+          borderWidth: 3,
+          hoverOffset: 6,
+        }],
+      },
+      options: {
+        cutout: '68%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: BROWN, titleColor: GOLD, bodyColor: CREAM,
+            borderColor: 'rgba(212,160,23,0.3)', borderWidth: 1,
+          },
+        },
+      },
+    });
+    document.getElementById('countryTotal').textContent = `${d.countries.length} countries`;
+
+    /* Small country list (donut legend) */
+    const cl = document.getElementById('countryList');
+    cl.innerHTML = top5.map((r, i) => `
+      <div class="country-row">
+        <span style="width:10px;height:10px;border-radius:50%;background:${cColors[i]};display:inline-block;flex-shrink:0"></span>
+        <span class="country-name">${flag(r.country)} ${r.country}</span>
+        <span class="country-count">${r.visits}</span>
+      </div>`).join('');
+
+    /* Full country table */
+    const maxV = d.countries[0]?.visits || 1;
+    const fcl  = document.getElementById('fullCountryList');
+    fcl.innerHTML = d.countries.length === 0
+      ? '<p style="color:var(--text-muted);font-size:0.88rem;text-align:center;padding:2rem">No data yet — visit the site to start tracking!</p>'
+      : d.countries.map(r => `
+        <div class="country-row" style="margin-bottom:0.6rem">
+          <span class="country-flag">${flag(r.country)}</span>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+              <span class="country-name">${r.country}</span>
+              <span class="country-count">${r.visits} <span style="font-weight:400;color:var(--text-muted)">(${r.unique_visitors} uniq)</span></span>
+            </div>
+            <div class="country-pct-bar">
+              <div class="country-pct-fill" style="width:${Math.round(r.visits/maxV*100)}%"></div>
+            </div>
+          </div>
+        </div>`).join('');
+
+    /* Page table */
+    const maxP  = Math.max(...d.pages.map(r => r.visits), 1);
+    const pageNames = { '/': '🏠 Home', '/assess': '🧪 Assessments', '/consult': '📋 Consult', '/body-wisdom': '🌿 Body Wisdom' };
+    const tbody = document.getElementById('pageTableBody');
+    tbody.innerHTML = d.pages.length === 0
+      ? '<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:2rem">No page data yet</td></tr>'
+      : d.pages.map(r => `
+        <tr>
+          <td>
+            <div style="font-weight:600">${pageNames[r.page] || r.page}</div>
+            <div class="page-bar-bg"><div class="page-bar-fill" style="width:${Math.round(r.visits/maxP*100)}%"></div></div>
+          </td>
+          <td style="text-align:right;font-family:'Cinzel Decorative',serif;font-weight:900;color:var(--brown-dark)">${r.visits}</td>
+          <td style="text-align:right;color:var(--text-muted)">${r.unique_visitors}</td>
+        </tr>`).join('');
+
+    /* Referrers */
+    const rl = document.getElementById('referrerList');
+    rl.innerHTML = d.top_referrers.length === 0
+      ? '<p style="color:var(--text-muted);font-size:0.88rem;text-align:center;padding:1.5rem">No referrer data (direct traffic)</p>'
+      : d.top_referrers.map(r => {
+          let icon = '🔗';
+          if (r.referrer.includes('google'))   icon = '🔍';
+          if (r.referrer.includes('facebook')) icon = '👥';
+          if (r.referrer.includes('twitter') || r.referrer.includes('x.com')) icon = '𝕏';
+          if (r.referrer.includes('instagram')) icon = '📷';
+          if (r.referrer.includes('whatsapp')) icon = '💬';
+          const display = r.referrer.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '').substring(0, 40);
+          return `<div class="referrer-item">
+            <div class="referrer-icon">${icon}</div>
+            <span class="referrer-url" title="${r.referrer}">${display}</span>
+            <span class="referrer-count">${r.count}</span>
+          </div>`;
+        }).join('');
+  }
+
+  /* Period tab clicks */
+  document.getElementById('periodTabs').addEventListener('click', e => {
+    const tab = e.target.closest('.period-tab');
+    if (tab) loadData(parseInt(tab.dataset.days));
+  });
+
+  /* Initial load */
+  loadData(30);
+
+  /* Auto-refresh every 2 minutes */
+  setInterval(() => loadData(currentDays), 120_000);
+  </script>
+</body>
+</html>

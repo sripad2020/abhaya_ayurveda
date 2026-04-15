@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AyuSutra — 12 Unique Ayurvedic Diagnostic Tools</title>
+  <meta name="description" content="12 deeply authentic Ayurvedic diagnostic tools — Nadi Pariksha, Ritucharya, Dinacharya, Jivha Pariksha, Agni Tracker, Ama Test, Rasa Planner, Nakshatra Calendar, Pranayama Prescription, Herb-Drug Checker, Panchakarma Readiness, and Dravyaguna Herb Map.">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Yatra+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/features.css?v=3">
+</head>
+<body>
+
+<!-- ── MOBILE OVERLAY ──────────────────────────────────────── -->
+<div class="mobile-nav-overlay" id="mobileOverlay"></div>
+
+<!-- ── MOBILE DRAWER ──────────────────────────────────────── -->
+<nav class="mobile-nav-drawer" id="mobileDrawer" aria-label="Mobile Navigation">
+  <button class="mobile-nav-close" id="mobileClose" aria-label="Close menu">✕</button>
+  <a href="/" class="mobile-nav-brand">
+    <span class="brand-om">ॐ</span>
+    <span>AyuSutra</span>
+  </a>
+  <ul class="mobile-nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#conditions">Conditions</a></li>
+    <li><a href="/assess">Assessments</a></li>
+    <li><a href="/features" class="active-link">12 Features</a></li>
+    <li><a href="/consult">Consult</a></li>
+  </ul>
+  <a href="/consult" class="mobile-nav-cta">Book Free Consultation ✦</a>
+</nav>
+
+<!-- ── NAVBAR ──────────────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <a href="/" class="brand">
+    <span class="brand-om">ॐ</span>
+    <span class="brand-name">AyuSutra</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#conditions">Conditions</a></li>
+    <li><a href="/assess">Assessments</a></li>
+    <li><a href="/features" class="active-link">12 Features</a></li>
+    <li><a href="/consult">Consult</a></li>
+  </ul>
+  <a href="/consult" class="nav-cta">Book Consultation ✦</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── HERO ────────────────────────────────────────────────── -->
+<section class="hero" id="hubHero">
+  <div class="ch-ring ch-ring-1"></div>
+  <div class="ch-ring ch-ring-2"></div>
+  <div class="ch-ring ch-ring-3"></div>
+  <div class="hero-inner">
+    <span class="hero-tag">Ancient Wisdom · Modern Interface</span>
+    <h1 class="hero-title">AyuSutra <em>Feature Suite</em></h1>
+    <p class="hero-sub">12 deeply authentic, first-of-their-kind Ayurvedic tools. No other wellness website has built these. Each one rooted in classical texts — Charaka, Sushruta, Ashtanga Hridayam.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">🧬 Clinically Grounded</span>
+      <span class="hero-badge">🎯 Personalised Results</span>
+      <span class="hero-badge">📚 Classical Texts</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── HUB GRID ─────────────────────────────────────────────── -->
+<section class="hub-section" id="hubSection">
+  <div class="hub-inner">
+    <div class="section-label">Exclusive Features</div>
+    <h2 class="section-title">Choose Your <em>Diagnostic Tool</em></h2>
+    <p class="section-sub">Select any of the 12 tools below. All are interactive, personalised, and grounded in classical Ayurvedic knowledge.</p>
+
+    <div class="hub-grid">
+
+      <!-- 1. Nadi Pariksha -->
+      <div class="hub-card" id="card-nadi" onclick="loadFeature('nadi')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">🌡️</div>
+        <span class="hub-card-num">01</span>
+        <h3>Nadi Pariksha</h3>
+        <p>Guided self-pulse reading. Place your fingers and discover Vata, Pitta or Kapha dominance.</p>
+        <span class="hub-card-tag">Pulse Diagnosis</span>
+        <button class="hub-btn" aria-label="Begin Nadi Pariksha">Begin Reading <span>→</span></button>
+      </div>
+
+      <!-- 2. Ritucharya -->
+      <div class="hub-card" id="card-ritucharya" onclick="loadFeature('ritucharya')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">📅</div>
+        <span class="hub-card-num">02</span>
+        <h3>Ritucharya Planner</h3>
+        <p>Live seasonal protocol. Auto-generated foods, herbs, sleep, and therapies for today's Ritu.</p>
+        <span class="hub-card-tag">Seasonal Living</span>
+        <button class="hub-btn" aria-label="View My Season">View My Season <span>→</span></button>
+      </div>
+
+      <!-- 3. Dinacharya -->
+      <div class="hub-card" id="card-dinacharya" onclick="loadFeature('dinacharya')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">🕐</div>
+        <span class="hub-card-num">03</span>
+        <h3>Dinacharya Builder</h3>
+        <p>Enter your dosha, wake time, and job type. Get a minute-by-minute Ayurvedic morning routine.</p>
+        <span class="hub-card-tag">Daily Routine</span>
+        <button class="hub-btn" aria-label="Build Routine">Build Routine <span>→</span></button>
+      </div>
+
+      <!-- 4. Jivha Pariksha -->
+      <div class="hub-card" id="card-jivha" onclick="loadFeature('jivha')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">👅</div>
+        <span class="hub-card-num">04</span>
+        <h3>Jivha Pariksha</h3>
+        <p>Tongue diagnosis — 8-question clinical assessment. Discover which dosha and organ is imbalanced.</p>
+        <span class="hub-card-tag">Tongue Diagnosis</span>
+        <button class="hub-btn" aria-label="Check Tongue">Check Tongue <span>→</span></button>
+      </div>
+
+      <!-- 5. Agni Tracker -->
+      <div class="hub-card" id="card-agni" onclick="loadFeature('agni')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">🔥</div>
+        <span class="hub-card-num">05</span>
+        <h3>Agni Tracker</h3>
+        <p>12-question daily check-in. Track your digestive fire with a personalised score and protocol.</p>
+        <span class="hub-card-tag">Digestive Fire</span>
+        <button class="hub-btn" aria-label="Log Today">Log Today <span>→</span></button>
+      </div>
+
+      <!-- 6. Ama Test -->
+      <div class="hub-card" id="card-ama" onclick="loadFeature('ama')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">☠️</div>
+        <span class="hub-card-num">06</span>
+        <h3>Ama Accumulation Test</h3>
+        <p>16-question quiz measuring your body's toxic load. Get a personalised detox protocol.</p>
+        <span class="hub-card-tag">Toxin Assessment</span>
+        <button class="hub-btn" aria-label="Test Ama Level">Test Ama Level <span>→</span></button>
+      </div>
+
+      <!-- 7. Rasa Planner -->
+      <div class="hub-card" id="card-rasa" onclick="loadFeature('rasa')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">🌾</div>
+        <span class="hub-card-num">07</span>
+        <h3>Rasa Meal Planner</h3>
+        <p>Log today's six tastes. See which Shad Rasa are missing and what to add to your next meal.</p>
+        <span class="hub-card-tag">Six Tastes</span>
+        <button class="hub-btn" aria-label="Log My Meal">Log My Meal <span>→</span></button>
+      </div>
+
+      <!-- 8. Nakshatra Health Calendar -->
+      <div class="hub-card" id="card-nakshatra" onclick="loadFeature('nakshatra')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">🌙</div>
+        <span class="hub-card-num">08</span>
+        <h3>Nakshatra Health Calendar</h3>
+        <p>Today's Nakshatra and moon phase — which body part is sensitive and what therapy is ideal.</p>
+        <span class="hub-card-tag">Jyotish-Ayurveda</span>
+        <button class="hub-btn" aria-label="View Today">View Today <span>→</span></button>
+      </div>
+
+      <!-- 9. Pranayama Prescription -->
+      <div class="hub-card" id="card-pranayama" onclick="loadFeature('pranayama')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">🌬️</div>
+        <span class="hub-card-num">09</span>
+        <h3>Pranayama Prescription</h3>
+        <p>Select your dosha imbalance. Get the exact breathing exercise, steps, and animated breathing timer.</p>
+        <span class="hub-card-tag">Breathing Therapy</span>
+        <button class="hub-btn" aria-label="Get Prescription">Get Prescription <span>→</span></button>
+      </div>
+
+      <!-- 10. Herb–Drug Checker -->
+      <div class="hub-card" id="card-herbchecker" onclick="loadFeature('herbchecker')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">💊</div>
+        <span class="hub-card-num">10</span>
+        <h3>Herb–Drug Checker</h3>
+        <p>Select your medication category — see which Ayurvedic herbs are safe, need monitoring, or to avoid.</p>
+        <span class="hub-card-tag">Safety Tool</span>
+        <button class="hub-btn" aria-label="Check Interactions">Check Interactions <span>→</span></button>
+      </div>
+
+      <!-- 11. Panchakarma Readiness -->
+      <div class="hub-card" id="card-panchakarma" onclick="loadFeature('panchakarma')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">🧘</div>
+        <span class="hub-card-num">11</span>
+        <h3>Panchakarma Readiness</h3>
+        <p>8 clinical questions assess if you are ready for Panchakarma detox and which therapy to do first.</p>
+        <span class="hub-card-tag">Detox Assessment</span>
+        <button class="hub-btn" aria-label="Check Readiness">Check Readiness <span>→</span></button>
+      </div>
+
+      <!-- 12. Dravyaguna Herb Map -->
+      <div class="hub-card" id="card-herbmap" onclick="loadFeature('herbmap')" role="button" tabindex="0">
+        <div class="hub-card-glow"></div>
+        <div class="hub-card-icon">🗺️</div>
+        <span class="hub-card-num">12</span>
+        <h3>Dravyaguna Herb Map</h3>
+        <p>India's living pharmacy by region — click any area to discover the Ayurvedic plants that grow there.</p>
+        <span class="hub-card-tag">India Herb Atlas</span>
+        <button class="hub-btn" aria-label="Explore Map">Explore Map <span>→</span></button>
+      </div>
+
+    </div><!-- end .hub-grid -->
+  </div><!-- end .hub-inner -->
+</section>
+
+<!-- ── FEATURE PANEL ─────────────────────────────────────── -->
+<section class="test-panel" id="testPanel">
+  <div class="test-panel-inner">
+    <button class="back-btn" id="backBtn" onclick="showHub()">← Back to All Features</button>
+    <div id="testContainer"></div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────────── -->
+<footer class="feat-footer">
+  <div class="feat-footer-inner">
+    <div class="feat-footer-brand">
+      <span class="brand-om">ॐ</span>
+      <span class="brand-name">AyuSutra</span>
+      <p>Ancient Wisdom. Modern Healing.</p>
+    </div>
+    <div class="feat-footer-links">
+      <strong>12 Features</strong>
+      <a href="#" onclick="loadFeature('nadi');return false;">Nadi Pariksha</a>
+      <a href="#" onclick="loadFeature('ritucharya');return false;">Ritucharya Planner</a>
+      <a href="#" onclick="loadFeature('agni');return false;">Agni Tracker</a>
+      <a href="#" onclick="loadFeature('ama');return false;">Ama Test</a>
+      <a href="#" onclick="loadFeature('pranayama');return false;">Pranayama</a>
+    </div>
+    <div class="feat-footer-links">
+      <strong>Quick Links</strong>
+      <a href="/">Home</a>
+      <a href="/assess">Assessments</a>
+      <a href="/consult">Consult</a>
+      <a href="/#about">About</a>
+    </div>
+    <div class="feat-footer-quote">
+      <blockquote>"Hitahitam sukham dukham ayustasya hitahitam<br>Manam ca tacca yatroktam ayurveda sa uchyate"</blockquote>
+      <cite>— Charaka Samhita</cite>
+    </div>
+  </div>
+  <div class="feat-footer-bottom">
+    <p>© 2024 AyuSutra. All rights reserved. | This website is for informational and educational purposes only. Not a substitute for medical advice.</p>
+  </div>
+</footer>
+
+<!-- ── JAVASCRIPT ────────────────────────────────────────── -->
+<script src="/static/js/features.js?v=2"></script>
+
+</body>
+</html>

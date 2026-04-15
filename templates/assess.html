@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Health Assessment Hub — AyuSutra | 20 Ayurvedic Tools</title>
+  <meta name="description" content="20 Ayurvedic health assessment tools — from Prakruti to Nadi Pariksha, Tongue Diagnosis, Agni Tracker, Herb Map and more. Ancient wisdom, modern interface."/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+  <link rel="stylesheet" href="/static/css/assess.css?v=2"/>
+  <link rel="stylesheet" href="/static/css/features.css?v=3"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Yatra+One&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <div class="watermark-bg" aria-hidden="true"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- MOBILE NAV DRAWER -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <nav class="mobile-nav-drawer" id="mobileDrawer" aria-label="Mobile Navigation">
+    <button class="mobile-nav-close" id="mobileClose" aria-label="Close menu">&#10005;</button>
+    <a href="/" class="mobile-nav-brand">
+      <span class="brand-om">&#2384;</span>
+      <span class="brand-name">AyuSutra</span>
+    </a>
+    <ul class="mobile-nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#conditions">Conditions</a></li>
+      <li><a href="/body-wisdom">Body Wisdom</a></li>
+      <li><a href="/assess" class="active">Assessments</a></li>
+      <li><a href="/consult">Consult</a></li>
+    </ul>
+    <a href="/consult" class="mobile-nav-cta">Book Free Consultation &#10022;</a>
+  </nav>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="/" class="nav-brand">
+      <span class="brand-om">&#2384;</span>
+      <span class="brand-name">AyuSutra</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#conditions">Conditions</a></li>
+      <li><a href="/body-wisdom">Body Wisdom</a></li>
+      <li><a href="/assess" style="color:var(--saffron)">Assessments</a></li>
+      <li><a href="/consult">Consult</a></li>
+    </ul>
+    <a href="/consult" class="nav-cta">Book Free Consult</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="assess-hero">
+    <div class="assess-hero-inner">
+      <p class="section-tag centered">Clinical Screening &middot; Ayurvedic Wisdom &middot; Ancient Diagnostics</p>
+      <h1 class="assess-hero-title">Health <em>Assessment</em><br/>Hub</h1>
+      <p class="assess-hero-sub">India's most complete Ayurvedic assessment platform — 20 tools spanning clinical screeners, ancient diagnostics, lifestyle planners, and therapeutic guides. Each result is mapped to your unique constitution.</p>
+      <div class="health-trust-row">
+        <span class="trust-badge">&#10022; 20 Specialised Tools</span>
+        <span class="trust-badge">&#10022; Runs in Browser</span>
+        <span class="trust-badge">&#10022; Clinically + Ayurvedically Mapped</span>
+        <span class="trust-badge">&#10022; Free Forever</span>
+      </div>
+    </div>
+    <div class="ch-ring ch-ring-1"></div>
+    <div class="ch-ring ch-ring-2"></div>
+  </section>
+
+  <!-- HUB GRID -->
+  <section class="hub-section" id="hubSection">
+    <div class="hub-inner">
+
+      <!-- ═══ CATEGORY 1: CONSTITUTION & DIAGNOSIS ═══ -->
+      <div class="hub-category">
+        <div class="hub-cat-header">
+          <span class="hub-cat-icon">&#127774;</span>
+          <div>
+            <h2 class="hub-cat-title">Constitution &amp; Diagnosis</h2>
+            <p class="hub-cat-sub">Ancient diagnostics to decode your body's inner language</p>
+          </div>
+        </div>
+        <div class="hub-grid">
+
+          <div class="hub-card" data-test="prakruti">
+            <div class="hub-card-icon">&#129496;</div>
+            <div class="hub-card-body">
+              <h3>Prakruti Assessment</h3>
+              <p>Full 20-question Vata/Pitta/Kapha dosha quiz — your birth constitution decoded with personalized guidance.</p>
+              <div class="hub-card-tags"><span>Vata</span><span>Pitta</span><span>Kapha</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-featured" data-test="nadi">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#128147;</div>
+            <div class="hub-card-body">
+              <h3>Nadi Pariksha</h3>
+              <p>Ancient pulse reading guide — learn to feel your dosha through wrist pulse rhythm and depth at three finger positions.</p>
+              <div class="hub-card-tags"><span>Pulse</span><span>Vata/Pitta/Kapha</span><span>Self-Guided</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Guide &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-featured" data-test="jivha">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#128065;</div>
+            <div class="hub-card-body">
+              <h3>Jivha Pariksha</h3>
+              <p>Tongue diagnosis — identify your organ health, toxin load and dosha imbalance by examining your tongue's appearance.</p>
+              <div class="hub-card-tags"><span>Tongue</span><span>Organ Health</span><span>Ama</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Diagnosis &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-featured" data-test="ama">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#9762;</div>
+            <div class="hub-card-body">
+              <h3>Ama Toxin Test</h3>
+              <p>12-question assessment measuring your body's toxin accumulation (Ama) level — with a personalised detox protocol.</p>
+              <div class="hub-card-tags"><span>Ama Score</span><span>Detox</span><span>Agni</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ═══ CATEGORY 2: LIFESTYLE & DAILY LIVING ═══ -->
+      <div class="hub-category">
+        <div class="hub-cat-header">
+          <span class="hub-cat-icon">&#127774;</span>
+          <div>
+            <h2 class="hub-cat-title">Daily Life &amp; Lifestyle</h2>
+            <p class="hub-cat-sub">Personalized routines, seasonal living and digestive tracking</p>
+          </div>
+        </div>
+        <div class="hub-grid">
+
+          <div class="hub-card hub-card-featured" data-test="dinacharya">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#9200;</div>
+            <div class="hub-card-body">
+              <h3>Dinacharya Builder</h3>
+              <p>Your dosha + wake time + lifestyle generates a minute-by-minute personalized Ayurvedic daily routine from dawn to dusk.</p>
+              <div class="hub-card-tags"><span>Daily Routine</span><span>Oil Pulling</span><span>Abhyanga</span></div>
+            </div>
+            <button class="hub-card-btn">Build Routine &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-featured" data-test="ritucharya">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#127774;</div>
+            <div class="hub-card-body">
+              <h3>Ritucharya Planner</h3>
+              <p>Season-based living — auto-detects the current Indian season (Rutu) and generates your complete seasonal health regimen.</p>
+              <div class="hub-card-tags"><span>Seasonal</span><span>Diet</span><span>Herbs</span></div>
+            </div>
+            <button class="hub-card-btn">View Season &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-featured" data-test="agni">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#128293;</div>
+            <div class="hub-card-body">
+              <h3>Agni Tracker</h3>
+              <p>Daily digestive fire check-in — track hunger, energy and digestion over 7 days to reveal your Agni health trend.</p>
+              <div class="hub-card-tags"><span>Digestive Fire</span><span>Daily Log</span><span>7-Day Trend</span></div>
+            </div>
+            <button class="hub-card-btn">Track Today &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-featured" data-test="rasa">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#127825;</div>
+            <div class="hub-card-body">
+              <h3>Rasa Meal Planner</h3>
+              <p>Log today's meals by Ayurvedic taste (Sweet, Sour, Salty, Pungent, Bitter, Astringent) — see your daily taste balance.</p>
+              <div class="hub-card-tags"><span>6 Tastes</span><span>Meal Balance</span><span>Dosha Diet</span></div>
+            </div>
+            <button class="hub-card-btn">Start Logging &#8594;</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ═══ CATEGORY 3: CLINICAL SCREENERS ═══ -->
+      <div class="hub-category">
+        <div class="hub-cat-header">
+          <span class="hub-cat-icon">&#127973;</span>
+          <div>
+            <h2 class="hub-cat-title">Clinical Screeners</h2>
+            <p class="hub-cat-sub">Evidence-based health risk assessments mapped to Ayurvedic insights</p>
+          </div>
+        </div>
+        <div class="hub-grid">
+
+          <div class="hub-card" data-test="obesity">
+            <div class="hub-card-icon">&#127947;</div>
+            <div class="hub-card-body">
+              <h3>Obesity &amp; Weight</h3>
+              <p>Visceral fat risk, metabolic syndrome screener, emotional eating pattern — Kapha dosha weight analysis.</p>
+              <div class="hub-card-tags"><span>Visceral Fat</span><span>Metabolic</span><span>BMI+</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card" data-test="diabetes">
+            <div class="hub-card-icon">&#129656;</div>
+            <div class="hub-card-body">
+              <h3>Diabetes Risk</h3>
+              <p>IDRS — India's validated diabetes risk score. Insulin resistance &amp; symptom check. Madhumeha correlation.</p>
+              <div class="hub-card-tags"><span>IDRS Score</span><span>Insulin</span><span>Madhumeha</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card" data-test="thyroid">
+            <div class="hub-card-icon">&#129419;</div>
+            <div class="hub-card-body">
+              <h3>Thyroid Health</h3>
+              <p>TSH symptom screener, Hypo vs Hyper pattern quiz, metabolism &amp; energy score. Galaganda assessment.</p>
+              <div class="hub-card-tags"><span>TSH Risk</span><span>Hypo/Hyper</span><span>Galaganda</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card" data-test="womens">
+            <div class="hub-card-icon">&#128105;</div>
+            <div class="hub-card-body">
+              <h3>Women's Health</h3>
+              <p>PCOS risk screener, hormonal imbalance quiz, menstrual health &amp; fertility index. Stri Roga module.</p>
+              <div class="hub-card-tags"><span>PCOS</span><span>Hormones</span><span>Fertility</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card" data-test="skin">
+            <div class="hub-card-icon">&#127807;</div>
+            <div class="hub-card-body">
+              <h3>Skin Disorders</h3>
+              <p>Skin dosha type finder, trigger identifier for psoriasis/eczema, gut-skin link. Kushtha Roga analysis.</p>
+              <div class="hub-card-tags"><span>Dosha Skin</span><span>Triggers</span><span>Gut-Skin</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card" data-test="hairfall">
+            <div class="hub-card-icon">&#128135;</div>
+            <div class="hub-card-body">
+              <h3>Hair Fall</h3>
+              <p>Loss pattern classifier, nutrient deficiency risk (iron, B12, Vit D), scalp health. Khalitya Palitya assessment.</p>
+              <div class="hub-card-tags"><span>Pattern</span><span>Nutrients</span><span>Khalitya</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-eye" data-test="eyetest">
+            <div class="hub-card-icon">&#128065;</div>
+            <div class="hub-card-body">
+              <h3>Snellen Eye Test</h3>
+              <p>Visual acuity screening — calibrated to your screen. Left &amp; right eye tested separately. Alochaka Pitta analysis.</p>
+              <div class="hub-card-tags"><span>Visual Acuity</span><span>20/20</span><span>Netra</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-new" data-test="mental">
+            <div class="hub-card-badge" style="background:#7C3AED">NEW</div>
+            <div class="hub-card-icon">🧠</div>
+            <div class="hub-card-body">
+              <h3>Mental Health &amp; Stress</h3>
+              <p>PHQ-9 inspired 10-question assessment — anxiety, depression, burnout, and resilience mapped to Manas Prakriti (Ayurvedic mental constitution).</p>
+              <div class="hub-card-tags"><span>PHQ-9</span><span>Anxiety</span><span>Manas Dosha</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-new" data-test="gut">
+            <div class="hub-card-badge" style="background:#059669">NEW</div>
+            <div class="hub-card-icon">🫃</div>
+            <div class="hub-card-body">
+              <h3>Gut Health &amp; IBS</h3>
+              <p>Rome IV criteria-based 10-question gut screener — IBS pattern (C/D/M), Grahani Roga, FODMAP triggers and gut-brain axis analysis.</p>
+              <div class="hub-card-tags"><span>Rome IV</span><span>IBS</span><span>Grahani</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-new" data-test="joint">
+            <div class="hub-card-badge" style="background:#DC2626">NEW</div>
+            <div class="hub-card-icon">🦴</div>
+            <div class="hub-card-body">
+              <h3>Joint Health &amp; Arthritis</h3>
+              <p>8-question arthritis pattern classifier — Osteoarthritis (Sandhivata), Rheumatoid (Aamavata), and Gout (Vatarakta) with targeted Ayurvedic treatment protocols.</p>
+              <div class="hub-card-tags"><span>OA</span><span>Aamavata</span><span>Gout</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-new" data-test="sleep">
+            <div class="hub-card-badge" style="background:#1D4ED8">NEW</div>
+            <div class="hub-card-icon">🌙</div>
+            <div class="hub-card-body">
+              <h3>Sleep Quality Score</h3>
+              <p>PSQI-inspired 8-question sleep assessment — sleep latency, duration, apnoea screening, and Nidra (Ayurvedic sleep) pattern analysis with corrective protocols.</p>
+              <div class="hub-card-tags"><span>PSQI</span><span>Nidra</span><span>Apnoea</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-new" data-test="energy">
+            <div class="hub-card-badge" style="background:#D97706">NEW</div>
+            <div class="hub-card-icon">⚡</div>
+            <div class="hub-card-body">
+              <h3>Energy &amp; Fatigue</h3>
+              <p>8-question fatigue analysis — chronic fatigue syndrome patterns, post-COVID fatigue, burnout, and the Ayurvedic Ojas depletion model with Rasayana protocols.</p>
+              <div class="hub-card-tags"><span>Ojas</span><span>CFS</span><span>Long COVID</span></div>
+            </div>
+            <button class="hub-card-btn">Begin Test &#8594;</button>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="hub-category">
+        <div class="hub-cat-header">
+          <span class="hub-cat-icon">&#127807;</span>
+          <div>
+            <h2 class="hub-cat-title">Therapies &amp; References</h2>
+            <p class="hub-cat-sub">Therapeutic guides, detox readiness, herb knowledge and planetary health</p>
+          </div>
+        </div>
+        <div class="hub-grid">
+
+          <div class="hub-card hub-card-featured" data-test="pranayama">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#127744;</div>
+            <div class="hub-card-body">
+              <h3>Pranayama Prescription</h3>
+              <p>Your dosha determines your breathing medicine — animated step-by-step guide with inhale/hold/exhale timer.</p>
+              <div class="hub-card-tags"><span>Breathing</span><span>Dosha-Based</span><span>Timer</span></div>
+            </div>
+            <button class="hub-card-btn">Get Prescription &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-featured" data-test="panchakarma">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#129534;</div>
+            <div class="hub-card-body">
+              <h3>Panchakarma Readiness</h3>
+              <p>15-question diagnostic quiz assessing whether your body is ready for Panchakarma detox — and which treatment to begin.</p>
+              <div class="hub-card-tags"><span>Detox</span><span>PK Readiness</span><span>Treatment Guide</span></div>
+            </div>
+            <button class="hub-card-btn">Check Readiness &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-featured" data-test="herbchecker">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#128138;</div>
+            <div class="hub-card-body">
+              <h3>Herb Interaction Checker</h3>
+              <p>Search your allopathic medicine — see which Ayurvedic herbs are safe, which need caution, and which to avoid entirely.</p>
+              <div class="hub-card-tags"><span>Drug Safety</span><span>Herb Interactions</span><span>Advisory</span></div>
+            </div>
+            <button class="hub-card-btn">Check Safety &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-featured" data-test="nakshatra">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#11088;</div>
+            <div class="hub-card-body">
+              <h3>Nakshatra Health Calendar</h3>
+              <p>Today's lunar asterism reveals which body organ is most sensitive — and the auspicious timing for treatments and fasting.</p>
+              <div class="hub-card-tags"><span>Lunar</span><span>Organ Map</span><span>Muhurta</span></div>
+            </div>
+            <button class="hub-card-btn">View Today &#8594;</button>
+          </div>
+
+          <div class="hub-card hub-card-featured" data-test="herbmap">
+            <div class="hub-card-badge">UNIQUE</div>
+            <div class="hub-card-icon">&#127757;</div>
+            <div class="hub-card-body">
+              <h3>Dravyaguna Herb Map</h3>
+              <p>Interactive map of India — explore medicinal herbs native to each region, their Ayurvedic properties and therapeutic uses.</p>
+              <div class="hub-card-tags"><span>India Map</span><span>Dravyaguna</span><span>Regional Herbs</span></div>
+            </div>
+            <button class="hub-card-btn">Explore Map &#8594;</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TEST PANEL -->
+  <section class="test-panel" id="testPanel" style="display:none">
+    <div class="test-panel-inner">
+      <button class="back-to-hub" id="backBtn">&#8592; Back to Hub</button>
+      <div id="testContainer"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-om">&#2384;</span>
+        <span class="brand-name">AyuSutra</span>
+        <p>Ancient Wisdom. Modern Healing.</p>
+      </div>
+      <div class="footer-links">
+        <strong>Constitution Tools</strong>
+        <a href="#" onclick="loadTest('prakruti');return false">Prakruti Assessment</a>
+        <a href="#" onclick="loadTest('nadi');return false">Nadi Pariksha</a>
+        <a href="#" onclick="loadTest('jivha');return false">Jivha Pariksha</a>
+        <a href="#" onclick="loadTest('ama');return false">Ama Toxin Test</a>
+      </div>
+      <div class="footer-links">
+        <strong>Lifestyle Tools</strong>
+        <a href="#" onclick="loadTest('dinacharya');return false">Dinacharya Builder</a>
+        <a href="#" onclick="loadTest('ritucharya');return false">Ritucharya Planner</a>
+        <a href="#" onclick="loadTest('agni');return false">Agni Tracker</a>
+        <a href="#" onclick="loadTest('rasa');return false">Rasa Meal Planner</a>
+      </div>
+      <div class="footer-links">
+        <strong>Therapy &amp; Herbs</strong>
+        <a href="#" onclick="loadTest('pranayama');return false">Pranayama Prescription</a>
+        <a href="#" onclick="loadTest('panchakarma');return false">Panchakarma Readiness</a>
+        <a href="#" onclick="loadTest('herbchecker');return false">Herb Interaction Checker</a>
+        <a href="#" onclick="loadTest('herbmap');return false">Herb Map of India</a>
+      </div>
+      <div class="footer-quote">
+        <blockquote>"Sarve bhavantu sukhinah, sarve santu niramayah"</blockquote>
+        <cite>— Ancient Vedic Prayer for Universal Health</cite>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 AyuSutra. All rights reserved. | Screening tools only &mdash; not a substitute for medical diagnosis.</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/script.js"></script>
+  <script src="/static/js/features.js?v=2"></script>
+  <script src="/static/js/assess.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Body Wisdom Calculator — AyuSutra</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="stylesheet" href="/static/css/health.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Yatra+One&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <div class="watermark-bg" aria-hidden="true"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="/" class="nav-brand">
+      <span class="brand-om">ॐ</span>
+      <span class="brand-name">AyuSutra</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#conditions">Conditions</a></li>
+      <li><a href="/#prakruti">Prakruti</a></li>
+      <li><a href="/body-wisdom" style="color:var(--saffron)">Body Wisdom</a></li>
+      <li><a href="/consult">Consult</a></li>
+    </ul>
+    <a href="/consult" class="nav-cta">Begin Assessment</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="health-hero">
+    <div class="health-hero-inner">
+      <p class="section-tag centered">Ancient Metrics · Modern Science</p>
+      <h1 class="health-hero-title">
+        Know Your <em>Body</em><br/>Decode Your <em>Prakriti</em>
+      </h1>
+      <p class="health-hero-sub">
+        Enter your measurements. Receive a comprehensive health portrait —
+        BMI, metabolism, body fat, cardiovascular risk, and your Ayurvedic wellness path.
+      </p>
+      <div class="health-trust-row">
+        <span class="trust-badge">✦ 12 Metrics Calculated</span>
+        <span class="trust-badge">✦ Ayurvedic Insights</span>
+        <span class="trust-badge">✦ Instant & Free</span>
+      </div>
+    </div>
+    <div class="ch-ring ch-ring-1"></div>
+    <div class="ch-ring ch-ring-2"></div>
+  </section>
+
+  <!-- MAIN CALCULATOR -->
+  <section class="health-main">
+    <div class="health-main-inner">
+
+      <!-- INPUT FORM CARD -->
+      <div class="calc-input-card" id="calcInputCard">
+        <div class="calc-input-header">
+          <span class="calc-header-icon">⚕</span>
+          <div>
+            <h2>Your Body Measurements</h2>
+            <p>All calculations happen locally — your data never leaves your device.</p>
+          </div>
+        </div>
+
+        <!-- UNIT TOGGLE -->
+        <div class="unit-toggle-row">
+          <span class="unit-label">Units:</span>
+          <div class="unit-toggle" id="unitToggle">
+            <button class="unit-btn active" data-unit="metric">Metric (kg / cm)</button>
+            <button class="unit-btn" data-unit="imperial">Imperial (lb / in)</button>
+          </div>
+        </div>
+
+        <div class="calc-fields">
+          <!-- Gender -->
+          <div class="calc-field-group full-width">
+            <label>Biological Sex <span class="req">*</span></label>
+            <div class="gender-selector" id="genderSelector">
+              <button type="button" class="gender-btn selected" data-val="male">
+                <span class="g-icon">♂</span>
+                <span>Male</span>
+              </button>
+              <button type="button" class="gender-btn" data-val="female">
+                <span class="g-icon">♀</span>
+                <span>Female</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Age -->
+          <div class="calc-field-group">
+            <label for="cAge">Age <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">🎂</span>
+              <input type="number" id="cAge" placeholder="e.g. 28" min="10" max="100" />
+              <span class="input-unit">yrs</span>
+            </div>
+            <span class="field-err" id="err-age"></span>
+          </div>
+
+          <!-- Height -->
+          <div class="calc-field-group">
+            <label for="cHeight">Height <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">📏</span>
+              <input type="number" id="cHeight" placeholder="e.g. 170" min="100" max="250" step="0.1" />
+              <span class="input-unit" id="heightUnit">cm</span>
+            </div>
+            <span class="field-err" id="err-height"></span>
+          </div>
+
+          <!-- Weight -->
+          <div class="calc-field-group">
+            <label for="cWeight">Weight <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">⚖️</span>
+              <input type="number" id="cWeight" placeholder="e.g. 70" min="20" max="300" step="0.1" />
+              <span class="input-unit" id="weightUnit">kg</span>
+            </div>
+            <span class="field-err" id="err-weight"></span>
+          </div>
+
+          <!-- Waist -->
+          <div class="calc-field-group">
+            <label for="cWaist">Waist Circumference <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">🎯</span>
+              <input type="number" id="cWaist" placeholder="e.g. 80" min="40" max="200" step="0.1" />
+              <span class="input-unit" id="waistUnit">cm</span>
+            </div>
+            <span class="field-err" id="err-waist"></span>
+          </div>
+
+          <!-- Activity Level -->
+          <div class="calc-field-group full-width">
+            <label for="cActivity">Activity Level <span class="req">*</span></label>
+            <div class="input-wrap select-wrap">
+              <span class="input-icon">🏃</span>
+              <select id="cActivity">
+                <option value="">Select activity level…</option>
+                <option value="1.2">Sedentary (desk job, little/no exercise)</option>
+                <option value="1.375">Lightly Active (1–3 days/week exercise)</option>
+                <option value="1.55">Moderately Active (3–5 days/week)</option>
+                <option value="1.725">Very Active (6–7 days/week)</option>
+                <option value="1.9">Extremely Active (athlete / physical job)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary calc-submit-btn" id="calcBtn" type="button">
+          <span>Reveal My Body Wisdom</span>
+          <span class="btn-sparkle">✦</span>
+        </button>
+      </div>
+
+      <!-- RESULTS SECTION -->
+      <div class="calc-results" id="calcResults" style="display:none">
+
+        <!-- SCORE OVERVIEW -->
+        <div class="results-overview">
+          <div class="overview-header">
+            <div class="overview-mandala">☸</div>
+            <div>
+              <h2 id="overviewName">Your Health Portrait</h2>
+              <p id="overviewCategory" class="overview-cat"></p>
+            </div>
+            <button class="recalc-btn" id="recalcBtn">↺ Recalculate</button>
+          </div>
+          <!-- Risk Meter -->
+          <div class="risk-meter-wrap">
+            <div class="risk-meter">
+              <div class="risk-track">
+                <div class="risk-fill" id="riskFill"></div>
+                <div class="risk-needle" id="riskNeedle"></div>
+              </div>
+              <div class="risk-labels">
+                <span>Low Risk</span>
+                <span>Moderate</span>
+                <span>High Risk</span>
+              </div>
+            </div>
+            <div class="risk-score-badge" id="riskBadge">
+              <span class="rs-num" id="riskNum">--</span>
+              <span class="rs-label">Risk Score</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- METRIC CARDS GRID -->
+        <div class="metrics-grid">
+
+          <!-- BMI -->
+          <div class="metric-card" data-reveal="0">
+            <div class="mc-icon">⚖️</div>
+            <div class="mc-content">
+              <span class="mc-label">BMI</span>
+              <span class="mc-value" id="resBMI">--</span>
+              <span class="mc-unit">kg/m²</span>
+              <span class="mc-tag" id="resBMITag"></span>
+            </div>
+            <div class="mc-bar-wrap">
+              <div class="mc-bar"><div class="mc-bar-fill" id="bmiFill"></div></div>
+              <div class="mc-bar-labels"><span>15</span><span>25</span><span>35</span><span>40+</span></div>
+            </div>
+            <p class="mc-insight" id="bmiInsight"></p>
+          </div>
+
+          <!-- BMR -->
+          <div class="metric-card" data-reveal="1">
+            <div class="mc-icon">🔥</div>
+            <div class="mc-content">
+              <span class="mc-label">Basal Metabolic Rate</span>
+              <span class="mc-value" id="resBMR">--</span>
+              <span class="mc-unit">kcal/day</span>
+              <span class="mc-tag normal-tag">Resting Energy</span>
+            </div>
+            <p class="mc-insight" id="bmrInsight"></p>
+          </div>
+
+          <!-- TDEE -->
+          <div class="metric-card" data-reveal="2">
+            <div class="mc-icon">⚡</div>
+            <div class="mc-content">
+              <span class="mc-label">Total Daily Energy</span>
+              <span class="mc-value" id="resTDEE">--</span>
+              <span class="mc-unit">kcal/day</span>
+              <span class="mc-tag normal-tag">Active Expenditure</span>
+            </div>
+            <p class="mc-insight" id="tdeeInsight"></p>
+          </div>
+
+          <!-- Body Fat % -->
+          <div class="metric-card" data-reveal="3">
+            <div class="mc-icon">💪</div>
+            <div class="mc-content">
+              <span class="mc-label">Body Fat %</span>
+              <span class="mc-value" id="resBF">--</span>
+              <span class="mc-unit">%</span>
+              <span class="mc-tag" id="resBFTag"></span>
+            </div>
+            <div class="donut-wrap">
+              <svg class="donut-chart" viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="30" fill="none" stroke="rgba(212,160,23,0.15)" stroke-width="10"/>
+                <circle cx="40" cy="40" r="30" fill="none" stroke="var(--gold)" stroke-width="10"
+                  stroke-dasharray="188.5" stroke-dashoffset="188.5" id="bfDonut"
+                  stroke-linecap="round" transform="rotate(-90 40 40)"/>
+              </svg>
+              <span class="donut-label" id="bfDonutLabel">--%</span>
+            </div>
+            <p class="mc-insight" id="bfInsight"></p>
+          </div>
+
+          <!-- Waist-to-Height Ratio -->
+          <div class="metric-card" data-reveal="4">
+            <div class="mc-icon">📐</div>
+            <div class="mc-content">
+              <span class="mc-label">Waist-to-Height Ratio</span>
+              <span class="mc-value" id="resWHtR">--</span>
+              <span class="mc-unit">ratio</span>
+              <span class="mc-tag" id="resWHtRTag"></span>
+            </div>
+            <p class="mc-insight" id="whtrInsight"></p>
+          </div>
+
+          <!-- Ideal Weight -->
+          <div class="metric-card" data-reveal="5">
+            <div class="mc-icon">🎯</div>
+            <div class="mc-content">
+              <span class="mc-label">Ideal Body Weight</span>
+              <span class="mc-value" id="resIBW">--</span>
+              <span class="mc-unit">kg</span>
+              <span class="mc-tag normal-tag">Devine Formula</span>
+            </div>
+            <p class="mc-insight" id="ibwInsight"></p>
+          </div>
+
+          <!-- Lean Body Mass -->
+          <div class="metric-card" data-reveal="6">
+            <div class="mc-icon">🏋️</div>
+            <div class="mc-content">
+              <span class="mc-label">Lean Body Mass</span>
+              <span class="mc-value" id="resLBM">--</span>
+              <span class="mc-unit">kg</span>
+              <span class="mc-tag normal-tag">Muscle + Bone</span>
+            </div>
+            <p class="mc-insight" id="lbmInsight"></p>
+          </div>
+
+          <!-- Body Surface Area -->
+          <div class="metric-card" data-reveal="7">
+            <div class="mc-icon">🔬</div>
+            <div class="mc-content">
+              <span class="mc-label">Body Surface Area</span>
+              <span class="mc-value" id="resBSA">--</span>
+              <span class="mc-unit">m²</span>
+              <span class="mc-tag normal-tag">Du Bois Formula</span>
+            </div>
+            <p class="mc-insight" id="bsaInsight"></p>
+          </div>
+
+          <!-- Fat Distribution -->
+          <div class="metric-card" data-reveal="8">
+            <div class="mc-icon">🍎</div>
+            <div class="mc-content">
+              <span class="mc-label">Fat Distribution</span>
+              <span class="mc-value" id="resFatDist" style="font-size:1.5rem">--</span>
+              <span class="mc-unit">body shape</span>
+              <span class="mc-tag" id="resFatDistTag"></span>
+            </div>
+            <p class="mc-insight" id="fatDistInsight"></p>
+          </div>
+
+          <!-- Fitness Category -->
+          <div class="metric-card" data-reveal="9">
+            <div class="mc-icon">🏆</div>
+            <div class="mc-content">
+              <span class="mc-label">Fitness Category</span>
+              <span class="mc-value" id="resFitCat" style="font-size:1.3rem">--</span>
+              <span class="mc-unit">classification</span>
+              <span class="mc-tag" id="resFitCatTag"></span>
+            </div>
+            <p class="mc-insight" id="fitCatInsight"></p>
+          </div>
+
+          <!-- Calorie Targets -->
+          <div class="metric-card metric-card-wide" data-reveal="10">
+            <div class="mc-icon">🍽️</div>
+            <div class="mc-content">
+              <span class="mc-label">Calorie Planning</span>
+              <span class="mc-tag normal-tag">Daily Targets</span>
+            </div>
+            <div class="calorie-trio">
+              <div class="cal-item">
+                <span class="cal-val" id="calLose">--</span>
+                <span class="cal-label">Weight Loss</span>
+                <span class="cal-sub">500 kcal deficit</span>
+              </div>
+              <div class="cal-item cal-item-main">
+                <span class="cal-val" id="calMaintain">--</span>
+                <span class="cal-label">Maintain</span>
+                <span class="cal-sub">Your TDEE</span>
+              </div>
+              <div class="cal-item">
+                <span class="cal-val" id="calGain">--</span>
+                <span class="cal-label">Weight Gain</span>
+                <span class="cal-sub">500 kcal surplus</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- AYURVEDIC INSIGHTS SECTION -->
+        <div class="ayur-insights-section">
+          <div class="ayur-header">
+            <span class="ayur-om">ॐ</span>
+            <div>
+              <h3>Ayurvedic Perspective</h3>
+              <p>Ancient wisdom meeting your numbers</p>
+            </div>
+          </div>
+          <div class="ayur-cards" id="ayurCards">
+            <!-- filled by JS -->
+          </div>
+        </div>
+
+        <!-- HEALTH SUGGESTIONS -->
+        <div class="suggestions-section">
+          <div class="sug-header">
+            <span>🌿</span>
+            <h3>Personalised Health Suggestions</h3>
+          </div>
+          <div class="sug-grid" id="sugGrid">
+            <!-- filled by JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-om">ॐ</span>
+        <span class="brand-name">AyuSutra</span>
+        <p>Ancient Wisdom. Modern Healing.</p>
+      </div>
+      <div class="footer-links">
+        <strong>Conditions</strong>
+        <a href="/#conditions">Obesity</a>
+        <a href="/#conditions">Diabetes</a>
+        <a href="/#conditions">Thyroid</a>
+        <a href="/#conditions">Women's Health</a>
+      </div>
+      <div class="footer-links">
+        <strong>Quick Links</strong>
+        <a href="/#about">About</a>
+        <a href="/#prakruti">Prakruti Assessment</a>
+        <a href="/consult">Consult</a>
+        <a href="/body-wisdom">Body Wisdom</a>
+      </div>
+      <div class="footer-quote">
+        <blockquote>
+          "Hitahitam sukham dukham ayustasya hitahitam<br/>
+          Manam ca tacca yatroktam ayurveda sa uchyate"
+        </blockquote>
+        <cite>— Charaka Samhita</cite>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 AyuSutra. All rights reserved. | This website is for informational purposes only and does not replace medical advice.</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/script.js"></script>
+  <script src="/static/js/health.js"></script>
+</body>
+</html>
